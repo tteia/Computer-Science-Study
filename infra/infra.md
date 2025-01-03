@@ -31,6 +31,22 @@ GitHub Actions와 Docker의 자동화를 통해 수작업 배포 과정을 제�
 또, MSA 구조와 Kubernetes 를 활용해 개별 서비스의 독립 배포 및 확장성을 확보해 코드의 유연성을 강화하였습니다.
 
 ### **3. Web Server, Web Application Server 의 차이는 무엇인가요?**
+1. Web Server (웹 서버)
+- 정적 컨텐츠 제공: HTML, CSS, JavaScript, 이미지, 동영상 등 정적 리소스를 클라이언트(브라우저)에 제공.
+- 주요 역할
+  - HTTP 요청 수락 및 정적 파일 제공.
+  - 리버스 프록시 역할 (요청을 다른 서버로 전달).
+  - ex) Nginx, Apache HTTP Server.
+2. Web Application Server (WAS, 웹 애플리케이션 서버)
+- 동적 컨텐츠 처리: 데이터베이스 연동, 비즈니스 로직 수행, API 호출 등 동적 웹 애플리케이션 처리.
+- 주요 역할
+  - 클라이언트 요청을 받아 비즈니스 로직 수행.
+  - 데이터베이스 연동 및 API 호출.
+  - 서버 사이드 렌더링(SSR) 가능.
+  - ex) Tomcat, Jetty, WildFly.
+
+A. 웹 서버는 정적 리소스 제공에 특화되어 있고, WAS 는 동적 데이터와 비즈니스 로직처리에 특화되어 있다.
+
 
 ### 4. Git에 대해 설명해 주세요.
 

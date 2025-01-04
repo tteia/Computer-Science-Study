@@ -335,9 +335,28 @@ DHCP 를 사용하면 네트워크 관리자가 각 장치에 수동으로 IP �
 - **hosts 파일은 어떤 역할을 하나요? DNS와 비교하였을 때 어떤 것이 우선순위가 더 높나요?**
 
 ### **15. SOP 정책에 대해 설명해 주세요.**
-
+A. SOP(Same-Origin Policy, 동일 출처 정책)란 웹 보안 메커니즘으로,
+다른 출처(origin)에서 실행된 웹 페이지의 스크립트가 현재 페이지의 리소스에 접근하는 것을 제한하는 규칙이다.
+출처는 프로토콜(http, https), 호스트(domain), 포트(80,443 등) 세 요소의 조합으로 결정된다.
+- 예)
+  ```
+  https://example.com:443
+  https://example.com:443  ✅ (동일 출처)
+  https://example.com:80   ❌ (포트 다름)
+  https://sub.example.com  ❌ (서브 도메인 다름)
+  ```
+  
 - **CORS 정책이 무엇인가요?**
+A. CORS(Cross-Origin Resource Sharing, 교차 출처 리소스 공유)란 SOP의 제한을 우회하기 위해 사용되는 HTTP 헤더 기반 보안 메커니즘으로,
+CORS를 사용하면 다른 출처에서 자원을 요청할 수 있도록 서버에서 명시적으로 허용할 수 있다.
+JAVA 의 경우 `@CrossOrigin` 를 통해 컨트롤러에서 직접 설정하거나, `CorsFilter` 등을 통해 모든 엔드포인트에 CORS 를 전역으로 설정할 수 있다.
+
 - **Preflight에 대해 설명해 주세요.**
+A. Preflight 요청이란 CORS의 일부로, 브라우저가 실제 요청을 보내기 전에 서버에 허용 여부를 미리 확인하는 요청이다.
+HTTP 메서드가 GET, POST, HEAD 외의 메서드를 사용하거나, 헤더에 `Content-Type: application/json` 와 같은 비표준 헤더가 포함될 경우 발생합니다.
+- Preflight 요청 방식
+  - OPTIONS 메서드를 사용해 요청을 보낸다.
+  - 서버가 해당 요청을 허용할 경우, 브라우저가 실제 요청을 전송한다.
 
 ### **16. Stateless와 Connectionless에 대해 설명해 주세요.**
 

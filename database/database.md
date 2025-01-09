@@ -241,5 +241,29 @@ A. 데이터베이스 내에 어떤 구조로 데이터가 저장되는가를 �
 - **COUNT (개수를 세는 쿼리) 는 어떻게 동작하나요? COUNT(1), COUNT(\*), COUNT(column) 의 동작 과정에는 차이가 있나요?**
 
 ### **16. SQL Injection에 대해 설명해 주세요.**
+A. SQL Injection(SQL 인젝션)이란 악의적인 사용자가 SQL 쿼리 조작을 통해 데이터베이스에 비정상적으로 접근하거나 조작하는 보안 취약점을 말한다.
+공격자는 입력 필드에 SQL 코드를 삽입해 권한 없는 데이터를 조회하거나 삭제, 수정 등의 작업을 수행할 수 있다.
+```java
+String userInput = "123 OR 1=1"; // 악의적 입력
+String query = "SELECT * FROM users WHERE id = '" + userInput + "'";
+```
+- 위 코드에 123 OR 1=1을 입력하면, 항상 1=1이 참이므로 모든 데이터가 조회된다.
+- 공격자가 '; DROP TABLE users; -- 와 같은 코드를 입력할 경우, 데이터베이스 삭제까지 가능하다.
 
 - **그렇다면, 우리가 서버 개발 과정에서 사용하는 수많은 DB 라이브러리들은 이 문제를 어떻게 해결할까요?**
+  1. Prepared Statement (준비된 문장)
+  - SQL 쿼리와 사용자 입력을 분리하여, 쿼리를 먼저 컴파일하고 이후에 데이터를 바인딩.
+  - 사용자 입력을 문자열이 아닌 데이터로 처리.
+  ```java
+  PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM users WHERE id = ?");
+  pstmt.setString(1, userInput); // 입력 값을 안전하게 바인딩
+  ResultSet rs = pstmt.executeQuery();
+  ``` 
+  2.  ORM (Hibernate, JPA 등)
+  - ORM 프레임워크는 데이터베이스 쿼리를 직접 작성하지 않고, 메서드 체인 방식으로 제공.
+  ```java
+  User user = entityManager.find(User.class, userInput);
+  ```
+  3. 입력 값 검증 및 인코딩: 사용자 입력을 화이트리스트 방식으로 검증하거나, 특수 문자를 인코딩.
+  - 숫자만 입력받는 경우, ^[0-9]+$ 정규표현식 사용.
+  4. 최소 권한 원칙 (Principle of Least Privilege): 데이터베이스 계정에 최소한의 권한만 부여하여, SQL Injection 발생 시 피해를 최소화.
